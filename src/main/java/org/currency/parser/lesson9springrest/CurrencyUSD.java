@@ -5,16 +5,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 @Entity
 public class CurrencyUSD {
     @Id
     @GeneratedValue
     private long id;
-    @Column(nullable = false, name = "name")
+    @Column(nullable = false)
     private String enname;
     @Column(nullable = false)
     private String exchangedate;
