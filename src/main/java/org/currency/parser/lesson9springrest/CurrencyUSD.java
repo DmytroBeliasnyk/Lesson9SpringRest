@@ -1,9 +1,16 @@
 package org.currency.parser.lesson9springrest;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+
+import java.time.LocalDate;
 
 @Entity
 public class CurrencyUSD {
@@ -13,14 +20,17 @@ public class CurrencyUSD {
     @Column(nullable = false)
     private String enname;
     @Column(nullable = false)
-    private String exchangedate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    private LocalDate exchangedate;
     @Column(nullable = false)
     private double rate;
 
     public CurrencyUSD() {
     }
 
-    public CurrencyUSD(String enname, String exchangedate, double rate) {
+    public CurrencyUSD(String enname, LocalDate exchangedate, double rate) {
         this.enname = enname;
         this.exchangedate = exchangedate;
         this.rate = rate;
@@ -42,11 +52,11 @@ public class CurrencyUSD {
         this.enname = enname;
     }
 
-    public String getExchangedate() {
+    public LocalDate getExchangedate() {
         return exchangedate;
     }
 
-    public void setExchangedate(String exchangedate) {
+    public void setExchangedate(LocalDate exchangedate) {
         this.exchangedate = exchangedate;
     }
 
@@ -62,8 +72,8 @@ public class CurrencyUSD {
     public String toString() {
         return "CurrencyUSD{" +
                 "id=" + id +
-                ", enname='" + enname + '\'' +
-                ", exchangedate=" + exchangedate +
+                ", name='" + enname + '\'' +
+                ", date=" + exchangedate +
                 ", rate=" + rate +
                 '}';
     }

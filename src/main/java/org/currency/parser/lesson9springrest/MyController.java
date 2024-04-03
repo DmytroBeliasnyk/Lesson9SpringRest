@@ -1,10 +1,12 @@
 package org.currency.parser.lesson9springrest;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -35,31 +37,27 @@ public class MyController {
     }
 
     @GetMapping("/show/{date}")
-    public CurrencyUSD getByDate(@PathVariable(name = "date", required = false) String date) {
+    public CurrencyUSD getByDate(@PathVariable(name = "date")
+                                 @DateTimeFormat(pattern = "dd.MM.yyyy")
+                                 LocalDate date) {
         return currencyService.getByDate(date);
     }
 
     @GetMapping("/average")
-    public Double getAverage(@RequestParam String start,
-                             @RequestParam String end) {
+    public Double getAverage(@RequestParam LocalDate start,
+                             @RequestParam LocalDate end) {
         return currencyService.getAverage(start, end);
     }
 
     @GetMapping("/min")
-    public CurrencyUSD getMin(@RequestParam String start,
-                              @RequestParam String end) {
+    public CurrencyUSD getMin(@RequestParam LocalDate start,
+                              @RequestParam LocalDate end) {
         return currencyService.getMinRate(start, end);
     }
 
     @GetMapping("/max")
-    public CurrencyUSD getMax(@RequestParam String start,
-                              @RequestParam String end) {
+    public CurrencyUSD getMax(@RequestParam LocalDate start,
+                              @RequestParam LocalDate end) {
         return currencyService.getMaxRate(start, end);
-    }
-
-    @GetMapping("/all")
-    public List<CurrencyUSD> get(@RequestParam String start,
-                                 @RequestParam String end) {
-        return currencyService.getAllByDate(start, end);
     }
 }
