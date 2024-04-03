@@ -7,13 +7,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Configuration
@@ -27,10 +22,10 @@ public class AppConfig {
             public void run(String... args) throws Exception {
                 ObjectMapper om = new ObjectMapper()
                         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                List<CurrencyUSD> request = om.readValue(new URL(api), new TypeReference<List<CurrencyUSD>>() {
+                List<CurrencyUSD> request = om.readValue(new URL(api), new TypeReference<>() {
                 });
-                for (var jsonString : request) {
-                    cs.save(jsonString);
+                for (var currencyUSD : request) {
+                    cs.save(currencyUSD);
                 }
             }
         };
